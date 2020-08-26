@@ -1,29 +1,28 @@
-const { Router} = require('express')
+const { Router } = require('express')
 const router = Router()
 const bodyParser = require('body-parser')
 const Message = require('../models/Message')
 
 
-router.get('/api', async(req, res) => {
- 
-  const message = await Message.find({})
+router.get('/api', async (req, res) => {
 
-  res.json(message)
+  Message.find()
+    .then(message => res.json(message))
+    .catch(err => res.status(400).json('Error:' + err))
 })
 
 router.post('/api', bodyParser.json(), async (req, res) => {
-  
-  const message = new Message ({
+
+  const message = new Message({
     id: req.body.id,
     name: req.body.name,
     message: req.body.message,
   })
-  
-  await message.save();
 
-  const messages = await Message.find({})
+  await message.save()
+    .then(() => res.json("added new message"))
+    .catch(err => res.status(400).json('Error:' + err))
 
-  res.json(messages)
 })
 
 module.exports = router;
