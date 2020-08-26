@@ -3,7 +3,10 @@ const express = require('express');
 const app = express()
 const mongoose = require('mongoose')
 const messagesRoutes = require('./routes/messages')
-const { dbLink } = require('./dbLink');
+const { dbLink } = require('./dbLink/dbLink');
+const cors = require('cors')
+
+app.use(cors())
 
 app.use((req, res, next) => {
   res.set('Access-Control-Allow-Origin', 'http://localhost:3000')
